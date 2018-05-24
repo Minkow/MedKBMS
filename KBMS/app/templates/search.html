@@ -1,0 +1,90 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<script src="/static/js/cytoscape.min.js"></script>
+<link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+{% endblock %}
+
+{% block title %}Result{% endblock %}
+{% block content %}
+{{util.flashed_messages(dismissible=True)}}
+<div class="container-fluid">
+	<div class="row">
+{#        {{ nav.top.render() }}#}
+    <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">Basics-MedKB</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home fa-lg"></i>  Home</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="{{ url_for('index') }}" method="post">
+                <div class="form-group">
+                <input type="text" class="form-control" placeholder="What ya want to know?" name="text">
+                </div>
+                <span class="desktop-wide">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search grey"></span></button>
+                </span>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/"><i class="fa fa-user-circle fa-lg"></i>  {{ username }}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={{ url_for('add')}}><i class="fa fa-plus-circle fa-lg"></i>  Add</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={{ url_for('view',result = result )}}><i class="fa fa-spinner fa-spin"></i>  View</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={{ url_for('edit',result = result )}}><i class="fa fa-edit fa-lg"></i>  Edit</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+        <h3 class="text-warning text-center Cursive">
+            {{ result }}
+        </h3>
+
+        <div class="col-md-2">
+        </div>
+
+		<div class="col-md-10">
+            <br/>
+            <br/>
+            <br/>
+            <h5>
+                {% for a in link %}
+                    {% if loop.index0 >= leng %}
+                        <li>
+                            <a href= {{url_for('search',result = page[loop.index0])}}>{{ page[loop.index0] }}</a> {{ a }}
+                        </li>
+{#                      <li>{{ a }}</li>#}
+                    {% elif a != 'type: ' %}
+                        <li>
+                            {{ a }}<a href= {{url_for('search',result = page[loop.index0])}}>{{ page[loop.index0] }}</a>
+                        </li>
+                    {%  else %}
+                        <li>{{ a }}{{ page[loop.index0] }}</li>
+                    {%  endif %}
+                <br/>
+                {% endfor %}
+            </h5>
+{#            {{ wtf.quick_form(form) }}#}
+		</div>
+
+	</div>
+</div>
+{% endblock %}

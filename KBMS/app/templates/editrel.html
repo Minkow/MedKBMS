@@ -1,0 +1,76 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css">
+{% endblock %}
+
+{% block title %}Index{% endblock %}
+
+{% block content %}
+{{util.flashed_messages(dismissible=True)}}
+<div class="container-fluid">
+	<div class="row">
+    <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">Basics-MedKB</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home fa-lg"></i>  Home</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/"><i class="fa fa-user-circle fa-lg"></i>  {{ username }}</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+        <div class="col-md-4">
+        </div>
+
+		<div class="col-md-4">
+			<h1 class="text-info text-center">
+                Edit Mode
+				<br/>
+				<br/>
+				<br/>
+			</h1>
+
+    <form action="{{ url_for('editrel', s=s, r=r, e=e )}}" class="form-horizontal" method="post">
+          <label class="control-label">Start Node</label>
+          <p>
+            <input type="text" value={{ s }} class="form-control" name="start" id="start">
+          </p>
+
+          <label class="control-label">Relationship</label>
+          <p>
+            <input type="text" value={{ r }} class="form-control" name="relation" id="relation">
+          </p>
+
+          <label class="control-label">End Node</label>
+          <p>
+            <input type="text" value={{ e }} class="form-control" name="end" id="end">
+          </p>
+        </br>
+        </br>
+            <input type="submit" class="btn btn-success" value="Submit">
+            <a class="btn btn-warning" value="return" href={{ url_for('search',result = s) }}><i class="fa fa-register fa-lg"></i>Return</a>
+  </form>
+
+		</div>
+	</div>
+</div>
+{% endblock %}
+

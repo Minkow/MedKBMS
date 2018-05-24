@@ -1,0 +1,116 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootswatch/3.3.7/cosmo/bootstrap.min.css">
+{% endblock %}}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<script src="static/js/jquery.min.js"></script>
+<script src="static/js/cytoscape.min.js"></script>
+
+    <style type="text/css">
+        /* cytoscape graph */
+        #cy {
+            height: 600px;
+        }
+    </style>
+    <script>
+        $(function(){
+            $.get('{{ url_for('getgraph', result = result)}}', function(input) {
+            cytoscape({
+                minZoom : 0.1,
+                maxZoom : 1.5,
+                hideEdgesOnViewport: true,
+                container: document.getElementById('cy'),
+                style:
+                [
+                    {
+                        selector: 'node[type = "type"]',
+                        css: {'background-color': '#FF4500', 'content': 'data(name)', 'height':20,'width':20}
+                    },
+                    {
+                        selector: 'node[type = "same"]',
+                        css: {'background-color': '#00FFFF', 'content': 'data(name)', 'height':20,'width':20}
+                    },
+                    {
+                        selector: 'node[type = "origin"]',
+                        css: {'background-color': '#6FB1FC', 'content': 'data(name)', 'height':20,'width':20}
+                    },
+                    {
+                        selector: 'node[type = "out"]',
+                        css: {'background-color': '#F5A45D', 'content': 'data(name)', 'height':20,'width':20}
+                    },
+                    {
+                        selector: 'node[type = "in"]',
+                        css: {'background-color': '#48D1CC', 'content': 'data(name)', 'height':20,'width':20}
+                    },
+                    {
+                        selector: 'edge',
+                        css: {'content': 'data(relationship)', 'curve-style': 'bezier', 'target-arrow-shape': 'triangle-tee', 'target-arrow-color': '#D3D3D3', 'line-color': '#D3D3D3', 'width': 1,"font-size":9}
+                    }
+              ],
+              elements: input.elements,
+              {#{#}
+              {#      nodes:#}
+              {#      [#}
+              {#      {data: {id: '172', name: 'Tom Cruise', label: 'Person'}},#}
+              {#      ],#}
+              {#      edges: [{data: {source: '172', target: '183', relationship: 'Acted_In'}}]#}
+              layout: { name: 'concentric', fit: true, animate:true, height:700, minNodeSpacing: 25}
+            });
+        },'json');
+    });
+    </script>
+
+    <link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+	    <div class="row">
+{#            {{ nav.top.render() }}#}
+    <div class="navbar navbar-default" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand">Basics-MedKB</a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li><a href="/"><i class="fa fa-home fa-lg"></i>  Home</a></li>
+            </ul>
+            <form class="navbar-form navbar-left" action="{{ url_for('index') }}" method="post">
+                <div class="form-group">
+                <input type="text" class="form-control" placeholder="What ya want to know?" name="text">
+                </div>
+                <span class="desktop-wide">
+                    <button type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search grey"></span></button>
+                </span>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/"><i class="fa fa-user-circle fa-lg"></i>  {{ username }}</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={{ url_for('add')}}><i class="fa fa-plus-circle fa-lg"></i>  Add</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href={{ url_for('search',result = result)}}><i class="fa fa-file-text-o fa-lg"></i>  Text</a></li>
+            </ul>
+        </div>
+    </div>
+    </div>
+
+        <h1 class="text-warning text-center Cursive">
+            {{ result }}
+        </h1>
+        <div id="cy">
+    </div>
+    </div>
+    </div>
+{% endblock %}

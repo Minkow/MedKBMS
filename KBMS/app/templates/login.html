@@ -1,0 +1,107 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+<style>
+body
+    {
+    background-color:#FFFAFA;
+    }
+</style>
+{#<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">#}
+<link rel="stylesheet" href="/static/font-awesome/css/font-awesome.min.css">
+{% endblock %}
+
+{% block title %}登录{% endblock %}
+
+{% block content %}
+{{util.flashed_messages(dismissible=True)}}
+<div class="container-fluid">
+	<div class="row">
+        <div class="col-md-8">
+			<div class="carousel slide" id="carouselx">
+				<ol class="carousel-indicators">
+					<li class="active" data-slide-to="0" data-target="#carouselx">
+					</li>
+					<li data-slide-to="1" data-target="#carouselx">
+					</li>
+					<li data-slide-to="2" data-target="#carouselx">
+					</li>
+				</ol>
+				<div class="carousel-inner" >
+					<div class="item active" style="max-height:500px;overflow:hidden;">
+						<img alt="Carousel Bootstrap First" width=100% src="/static/medical1.jpg">
+						<div class="carousel-caption">
+							<h4>
+
+							</h4>
+							<p>
+								Search medical words
+							</p>
+						</div>
+					</div>
+					<div class="item" style="max-height:500px;overflow:hidden;">
+						<img alt="Carousel Bootstrap Second" width=100% src="/static/medical2.jpg">
+						<div class="carousel-caption">
+							<h4>
+
+							</h4>
+							<p>
+								View relationships between words
+							</p>
+						</div>
+					</div>
+					<div class="item" style="max-height:500px;overflow:hidden;">
+						<img alt="Carousel Bootstrap Third" width=100% src="/static/medical3.jpg">
+						<div class="carousel-caption">
+							<h4>
+
+							</h4>
+							<p>
+								Check images of the relationships
+							</p>
+						</div>
+					</div>
+				</div> <a class="left carousel-control" href="#carouselx" data-slide="prev"><span class="glyphicon glyphicon-chevron-left"></span></a> <a class="right carousel-control" href="#carouselx" data-slide="next"><span class="glyphicon glyphicon-chevron-right"></span></a>
+			</div>
+		</div>
+
+
+		<div class="col-md-4">
+            <br/>
+            <br/>
+            <br/>
+			<h1 class="text-info text-center">
+                这应该是个标题
+				<br/>
+				<br/>
+				<br/>
+			</h1>
+        <form action="{{ url_for('login')}}" class="form-horizontal" method="post">
+            <div class="input-group margin-bottom-sm">
+            <span class="input-group-addon"><i class="fa fa-user-circle-o fa-fw"></i></span>
+            <input class="form-control" type="text" name="username" placeholder="Username">
+            </div>
+            <br/>
+            <br/>
+            <div class="input-group">
+            <span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
+            <input class="form-control" type="password" name="password" placeholder="Password">
+            </div>
+            </br>
+            </br>
+            <div class="btn-group">
+            <input type="submit" class="btn btn-success" value="登陆">
+
+                <a class="btn btn-primary" value="注册" href={{ url_for('register') }}><i class="fa fa-register fa-lg"></i>注册</a>
+            </div>
+        </form>
+		</div>
+
+	</div>
+</div>
+{% endblock %}
